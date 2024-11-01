@@ -23,11 +23,9 @@
 
 
             <div class="text-center">
-                <a use:link href="/game">
-                    <button class="transition bg-blue-500 active:bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        빙고 게임 플레이
-                    </button>
-                </a>
+                <button on:click={() => alert("준비 중입니다.")} class="transition bg-blue-500 active:bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    빙고 게임 플레이
+                </button>
                 <a use:link href="/game">
                     <button class="transition bg-blue-500 active:bg-blue-900  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         최적 수 찾기
