@@ -115,6 +115,11 @@ export default class Bingo {
         return cells;
     }
 
+    public init(): void {
+        this._state = 0;
+        this._count = 0;
+    }
+
     public drawCell(index: number): void {
         this._state |= 1 << index;
         this._count++;
