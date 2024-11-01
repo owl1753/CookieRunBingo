@@ -8,12 +8,12 @@ export default class Bingo {
     private readonly _diagonalMask1: number;
     private readonly _diagonalMask2: number;
 
-    private _dp: ({ expect: number, index: number } | null)[];
+    private readonly _dp: ({expect: number, state: number} | null)[];
 
-    constructor() {
-        this._state = 0;
-        this._count = 0;
-        this._bingoSize = 5;
+    constructor(state: number = 0, count: number = 0, bingoSize: number = 5) {
+        this._state = state;
+        this._count = count;
+        this._bingoSize = bingoSize;
 
         this._rowMasks = this.generateRowMasks();
         this._colMasks = this.generateColMasks();
@@ -61,6 +61,10 @@ export default class Bingo {
             mask |= 1 << (i * this._bingoSize + (this._bingoSize - 1 - i));
         }
         return mask;
+    }
+
+    get dp(): ({expect: number, state: number} | null)[] {
+        return this._dp;
     }
 
     get state(): number {
@@ -121,9 +125,42 @@ export default class Bingo {
         this._count--;
     }
 
-    public solve(): { expect: number, index: number } {
-        if (this._dp[this._state] !== null) return this._dp[this._state];
+    public solve(): { expect: number, state: number } {
+        if (this._dp[this._state] !== null) {
+            return this._dp[this._state]!;
+        }
 
-        return
+        if (this._count >= 16) {
+            return this._dp[this._state] = {
+                expect: this.bingoCount,
+                state: -1,
+            };
+        }
+
+        let sum = 0;
+        let maxValue = 0;
+        let maxIndex = 0;
+        let count = 0;
+
+        for (let i = 0; i < this._bingoSize * this._bingoSize; i++) {
+            if ((this._state & (1 << i)) >> i) continue;
+            this.drawCell(i);
+            const temp = this.solve();
+            count++;
+            if (maxValue < temp.expect) {
+                maxValue = temp.expect;
+                maxIndex = i;
+            }
+            sum += temp.expect;
+            this.clearCell(i);
+        }
+
+
+        this._dp[this._state] = {
+            expect: this._count % 2 ? (sum / count) : maxValue,
+            state: maxIndex
+        }
+
+        return this._dp[this._state]!;
     }
 }

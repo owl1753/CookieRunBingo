@@ -11,21 +11,26 @@
         </div>
 
         <div class="space-y-6">
-            <div class="p-4 rounded-lg">
+            <div class="p-4 rounded-lg space-y-1">
                 <p class="text-gray-700">
-                    최적화 알고리즘을 통해 최적의 수를 찾을 수 있습니다
+                    AI 추천을 통해 최적의 수를 찾거나, 빙고 게임을 플레이할 수 있습니다.
+                </p>
+                <p class="text-xs text-gray-400">
+                    '최적 수 찾기'에서는 기본으로 가운데 칸을 선택 후 시작합니다.
                 </p>
             </div>
+
+
 
             <div class="text-center">
                 <a use:link href="/game">
                     <button class="transition bg-blue-500 active:bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        AI와 플레이
+                        빙고 게임 플레이
                     </button>
                 </a>
                 <a use:link href="/game">
                     <button class="transition bg-blue-500 active:bg-blue-900  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        나 혼자 플레이
+                        최적 수 찾기
                     </button>
                 </a>
             </div>
