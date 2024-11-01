@@ -1,18 +1,18 @@
 @font-face {
   font-family: 'CookieRun';
-  src: url('public/fonts/CookieRunRegular.ttf') format('truetype');
+  src: url('@/assets/fonts/CookieRunRegular.ttf') format('truetype');
   font-weight: 400;
 }
 
 @font-face {
   font-family: 'CookieRun';
-  src: url('/public/fonts/CookieRunBold.ttf') format('truetype');
+  src: url('@/assets/fonts/CookieRunBold.ttf') format('truetype');
   font-weight: 700;
 }
 
 @font-face {
   font-family: 'CookieRun';
-  src: url('/public/fonts/CookieRunBlack.ttf') format('truetype');
+  src: url('@/assets/fonts/CookieRunBlack.ttf') format('truetype');
   font-weight: 900;
 }
 

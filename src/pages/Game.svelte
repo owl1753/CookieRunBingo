@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Bingo from "../lib/Bingo";
+    import Bingo from "@/lib/Bingo";
     import {onMount} from "svelte";
 
     const bingo = new Bingo();
