@@ -100,7 +100,7 @@
 </script>
 
 
-<main>
+<main class="max-w-md m-auto">
     {#if loading}
         <div class="absolute inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center">
             <div class="bg-white p-4 rounded-lg">
@@ -113,11 +113,15 @@
         <p>빙고: {bingoCount}</p>
     </div>
 
-    <div class="grid grid-rows-5 grid-cols-5 gap-4">
+    <div class="grid grid-rows-5 grid-cols-5 gap-2 ">
         {#each Array.from({ length: 25 }, (_, i) => i) as i}
             <button
                     on:click={() => clickCell(i)}
-                    class={`${cells[i] ? 'bg-gray-500' : (i === result?.state ? 'bg-green-300' : 'bg-gray-200')} h-16 w-16 flex items-center justify-center rounded-lg`}
+                    class={`${
+                cells[i]
+                    ? 'bg-gray-500'
+                    : (i === result?.state ? 'bg-green-300' : 'bg-gray-200')
+            } aspect-square w-full flex items-center justify-center rounded-lg text-sm sm:text-base`}
             >
                 {i + 1}
             </button>
