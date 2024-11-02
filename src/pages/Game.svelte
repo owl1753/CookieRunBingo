@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Bingo from "@/lib/Bingo";
+    import Bingo, {type Result} from "@/lib/Bingo";
     import {onMount} from "svelte";
 
     let bingo = new Bingo();
@@ -8,7 +8,8 @@
     let count = bingo.count;
     let loading = false;
     let error: string | null = null;
-    let result: { expect: number, state: number } | null = null;
+    let result: Result | null = null;
+
     let worker: Worker;
 
     const updateCell = (index: number) => {
@@ -36,7 +37,7 @@
         localStorage.setItem('state', JSON.stringify(bingo.state));
         localStorage.setItem('count', JSON.stringify(bingo.count));
         if (result) {
-            localStorage.setItem('resultIndex', JSON.stringify(result.state));
+            localStorage.setItem('resultIndex', JSON.stringify(result.index));
             localStorage.setItem('resultExpect', JSON.stringify(result.expect));
         }
     }
@@ -86,7 +87,7 @@
         const resultExpect = localStorage.getItem('resultExpect');
         if (state && count) bingo = new Bingo(state ? JSON.parse(state) : null, count ? JSON.parse(count) : 0);
         updateCell(12); // (2, 2)
-        if (!!resultIndex && !!resultExpect) result = {state: JSON.parse(resultIndex), expect: JSON.parse(resultExpect)};
+        if (!!resultIndex && !!resultExpect) result = {index: JSON.parse(resultIndex), expect: JSON.parse(resultExpect)};
     });
 
     const clickCell = (index: number) => {
@@ -120,7 +121,7 @@
                     class={`${
                 cells[i]
                     ? 'bg-gray-500'
-                    : (i === result?.state ? 'bg-green-300' : 'bg-gray-200')
+                    : (i === result?.index ? 'bg-green-300' : 'bg-gray-200')
             } aspect-square w-full flex items-center justify-center rounded-lg text-sm sm:text-base`}
             >
                 {i + 1}
