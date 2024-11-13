@@ -5,7 +5,11 @@ self.onmessage = (e) => {
     const {state, count} = e.data;
     const bingo = new Bingo(state, count);
     try {
-        const result = bingo.solve();
+        const result = {
+            expect: bingo.solve(),
+            index: bingo.index
+        }
+        console.log(bingo.pCounts);
         self.postMessage({ type: 'complete', result });
     } catch (error) {
         const errorMessage = error instanceof Error

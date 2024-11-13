@@ -7,13 +7,16 @@ export default class Bingo {
     private _state: number;
     private readonly _bingoSize: number;
     private _count: number;
+    private _index: number;
 
     private readonly _rowMasks: number[];
     private readonly _colMasks: number[];
     private readonly _diagonalMask1: number;
     private readonly _diagonalMask2: number;
 
-    private readonly _dp: Map<number, Result | null>;
+    private readonly _dp: Map<number, number>;
+
+    private _pCounts: number[];
 
     constructor(state: number = 0, count: number = 0, bingoSize: number = 5) {
         this._state = state;
@@ -25,7 +28,11 @@ export default class Bingo {
         this._diagonalMask1 = this.generateDiagonalMask1();
         this._diagonalMask2 = this.generateDiagonalMask2();
 
-        this._dp = new Map<number, Result | null>();
+        this._dp = new Map<number, number>();
+
+        this._pCounts = Array.from({ length: 6 }, () => 0);
+
+        this._index = 0;
     }
 
     private generateRowMasks(): number[] {
@@ -68,8 +75,16 @@ export default class Bingo {
         return mask;
     }
 
+    get index(): number {
+        return this._index;
+    }
+
     get state(): number {
         return this._state;
+    }
+
+    get pCounts(): number[] {
+        return this._pCounts;
     }
 
     get count(): number {
@@ -127,18 +142,14 @@ export default class Bingo {
         this._count--;
     }
 
-    public solve(): Result {
+    public solve(): number {
         if (this._dp.has(this._state)) {
             return this._dp.get(this._state)!;
         }
 
         if (this._count >= 16) {
-            const result =  {
-                expect: this.bingoCount,
-                index: -1,
-            };
-            this._dp.set(this._state, result);
-            return result;
+            this._pCounts[this.bingoCount]++;
+            return this.bingoCount;
         }
 
         let sum = 0;
@@ -151,18 +162,16 @@ export default class Bingo {
             this.drawCell(i);
             const temp = this.solve();
             count++;
-            if (maxValue < temp.expect) {
-                maxValue = temp.expect;
+            if (maxValue < temp) {
+                maxValue = temp;
                 maxIndex = i;
             }
-            sum += temp.expect;
+            sum += temp;
             this.clearCell(i);
         }
 
-        const result = {
-            expect: this._count % 2 ? (sum / count) : maxValue,
-            index: maxIndex
-        }
+        const result = this._count % 2 ? (sum / count) : maxValue;
+        this._index = maxIndex;
 
         this._dp.set(this._state, result);
         return result!;
